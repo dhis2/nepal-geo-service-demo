@@ -18,9 +18,9 @@ directory:
 ## Rules
 
 - **The public container stays read-only.** Never set `read_only: false` in
-  `climate-service.yaml`, and never route or publish the worker's port. All writes go
+  `geoservice.yaml`, and never route or publish the worker's port. All writes go
   through the worker.
-- **Only the worker runs schedules.** Open Climate Service allows one scheduling process per
+- **Only the worker runs schedules.** Open Geo Service allows one scheduling process per
   data directory.
 - **Credentials live in `worker.env`, owner-only, never in `.env`.** Compose reads `.env`
   automatically and passes it into the public container. Never print `worker.env`; to check

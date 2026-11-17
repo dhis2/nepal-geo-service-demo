@@ -6,7 +6,7 @@ services:
     ports:
       - "${PORT:-8003}:8003"
     environment:
-      CLIMATE_SERVICE_BASE_URL: ${CLIMATE_SERVICE_BASE_URL:-}
+      GEOSERVICE_BASE_URL: ${GEOSERVICE_BASE_URL:-}
       # Ingestion credentials, for /manage on an instance with read_only: false. Empty
       # unless set in .env -- so keep .env off the deploy host, where read_only makes
       # them unusable anyway.
@@ -15,6 +15,6 @@ services:
       ECMWF_DATASTORES_URL: ${ECMWF_DATASTORES_URL:-}
       ECMWF_DATASTORES_KEY: ${ECMWF_DATASTORES_KEY:-}
     volumes:
-      - ./climate-service.yaml:/app/climate-service.yaml:ro
+      - ./geoservice.yaml:/app/geoservice.yaml:ro
       - ./plugins:/app/plugins:ro
       - ./data:/app/data

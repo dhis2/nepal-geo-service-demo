@@ -1,6 +1,6 @@
 # Nepal Climate Service — public demo instance
 
-A publicly reachable [Open Climate Service](https://github.com/dhis2/open-climate-service)
+A publicly reachable [Open Geo Service](https://github.com/dhis2/open-geo-service)
 instance configured to the Nepal extent, kept online as a stable demo endpoint:
 
 **<https://ocs-demo-nepal.dhis2.org/>**
@@ -9,7 +9,7 @@ Tracked in [CLIM-848](https://dhis2.atlassian.net/browse/CLIM-848).
 
 ## What it's for
 
-- **Try Open Climate Service without deploying it.** Browse the STAC catalogue, the map
+- **Try Open Geo Service without deploying it.** Browse the STAC catalogue, the map
   viewer and the data endpoints against real data — no local install, no ingest.
 - **Test client integrations against a real endpoint.** The
   [GeoLibre plugin](https://github.com/dhis2/open-climate-service-geolibre-plugin),
@@ -52,7 +52,7 @@ connection = openeo.connect("https://ocs-demo-nepal.dhis2.org")
 The monthly datasets are kept current by scheduled sync (see [Ingesting data](#ingesting-data)).
 `GET /data-sources` lists everything this instance could ingest, with parameters.
 
-## Almost entirely stock Open Climate Service
+## Almost entirely stock Open Geo Service
 
 Everything here is built in **except one dataset plugin and one boundary template**, so what
 you see is close to what a stock install does, with very little instance-specific code to keep
@@ -77,7 +77,7 @@ CHIRPS3.
 
 ## Read-only
 
-`climate-service.yaml` sets `read_only: true`. Visitors can browse and compute; nobody can
+`geoservice.yaml` sets `read_only: true`. Visitors can browse and compute; nobody can
 change anything.
 
 | | |
@@ -95,7 +95,7 @@ omits the endpoints that would refuse, so clients discover the reduced surface r
 finding it by failing.
 
 > **Check this after every deploy.** `read_only` is an ordinary config key, so a build of
-> open-climate-service that predates read-only mode ignores it silently and serves a fully
+> open-geo-service that predates read-only mode ignores it silently and serves a fully
 > writable instance:
 >
 > ```bash
@@ -105,7 +105,7 @@ finding it by failing.
 ## Running it
 
 Docker is the only supported way to run this instance. The image is built on
-`ghcr.io/dhis2/open-climate-service`, so the service and its dependencies come from
+`ghcr.io/dhis2/open-geo-service`, so the service and its dependencies come from
 upstream's published build; this repository adds the config, the plugins and their
 dependencies.
 
@@ -115,10 +115,10 @@ make verify               # confirm it is up and read-only
 ```
 
 No `.env` is needed to serve. `PORT` selects the published host port, and
-`CLIMATE_SERVICE_BASE_URL` sets the public URL behind a reverse proxy.
+`GEOSERVICE_BASE_URL` sets the public URL behind a reverse proxy.
 
-`climate-service.yaml`, `plugins/` and `./data` are bind-mounted from the host, so the
-first two can be edited without a rebuild. Anything `climate-service.yaml` points at must
+`geoservice.yaml`, `plugins/` and `./data` are bind-mounted from the host, so the
+first two can be edited without a rebuild. Anything `geoservice.yaml` points at must
 also be mounted, or the container will not find it.
 
 `make test` runs the plugin contract checks inside the same image.
@@ -171,7 +171,7 @@ ssh -N -L 8013:127.0.0.1:8013 <deploy-host>
 # then http://localhost:8013/manage, or the API at http://localhost:8013
 ```
 
-Its config is `climate-service.yaml` with two changes:
+Its config is `geoservice.yaml` with two changes:
 
 ```yaml
 read_only: false
@@ -179,7 +179,7 @@ scheduler:
   enabled: true
 ```
 
-The worker is the only process that runs sync schedules; Open Climate Service allows exactly
+The worker is the only process that runs sync schedules; Open Geo Service allows exactly
 one scheduling process per data directory. Create the schedules from each dataset's
 **Schedule** tab in `/manage`, or with `POST /schedules/sync`. After rebuilding the public
 image, run `docker compose up -d` in the worker's project too, so both run the same build.
@@ -194,7 +194,7 @@ docker compose run --rm --no-deps \
   -e CDSE_S3_ACCESS_KEY -e CDSE_S3_SECRET_KEY \
   -e ECMWF_DATASTORES_URL -e ECMWF_DATASTORES_KEY \
   api python -c "
-from open_climate_service.ingestions.processes import execute_ingestion
+from open_geo_service.ingestions.processes import execute_ingestion
 execute_ingestion(dataset_id='era5land_temperature_monthly', start='1990-01', end='2026-09')
 "
 ```
@@ -214,14 +214,14 @@ Operating rules for AI coding assistants maintaining the deployment are in
 
 - **Hosting.** The demo runs on an NREC VM behind a Traefik reverse proxy, which terminates
   HTTPS. A host-specific `compose.override.yml` routes the public container through Traefik
-  without publishing a port, sets `CLIMATE_SERVICE_BASE_URL`, and mounts the data
+  without publishing a port, sets `GEOSERVICE_BASE_URL`, and mounts the data
   directory from a separate data volume. Provisioning is
   [CLIM-857](https://dhis2.atlassian.net/browse/CLIM-857).
-- **Pin the image.** The Dockerfile tracks `ghcr.io/dhis2/open-climate-service:main`, and
+- **Pin the image.** The Dockerfile tracks `ghcr.io/dhis2/open-geo-service:main`, and
   that tag moves — upstream rebuilds it on every merge, so a rebuild can change the service
-  under you. Pin a digest for anything long-lived. `main` is the only tag upstream
-  publishes; switch to a release tag once one exists.
-- **Set `CLIMATE_SERVICE_BASE_URL`** to the public HTTPS URL, or STAC and openEO links will
+  under you. For anything long-lived, use a release tag (`:0.2.0`, or `:0.2` for its patch
+  releases) or pin a digest.
+- **Set `GEOSERVICE_BASE_URL`** to the public HTTPS URL, or STAC and openEO links will
   point at the internal host.
 - **CORS** is already permissive on the data and STAC routes, which is what browser clients
   (GeoLibre, STAC Browser, the openEO editor) need cross-origin.

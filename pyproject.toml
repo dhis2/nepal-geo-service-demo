@@ -2,8 +2,8 @@
 name = "nepal-climate-service-demo"
 version = "0.1.0"
 requires-python = ">=3.12"
-description = "Public demo instance of Open Climate Service, configured to the Nepal extent"
-# Only what the instance plugins need. open-climate-service itself comes from the base
+description = "Public demo instance of Open Geo Service, configured to the Nepal extent"
+# Only what the instance plugins need. open-geo-service itself comes from the base
 # image the Dockerfile builds on, and so does everything it depends on. boto3 is for
 # clms_gpp.py's AWSSession.
 dependencies = [

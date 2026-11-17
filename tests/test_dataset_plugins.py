@@ -2,7 +2,7 @@
 
 A plugin class is imported **lazily, at ingest time** — the API starts, the dataset still
 lists in `/collections`, and a breakage only surfaces when someone runs that ingest. This
-instance tracks `open-climate-service` at git **main** (see pyproject.toml), so it is more
+instance tracks `open-geo-service` at git **main** (see pyproject.toml), so it is more
 exposed than a pinned instance: a core change can break the plugin between one `make upgrade`
 and the next, with nothing to catch it.
 
@@ -18,10 +18,10 @@ from typing import Any
 
 import pytest
 import yaml
-from open_climate_service.shared.time import dekad_bounds, dekad_period_ids
-from open_climate_service.streaming import BaseDatasetPlugin
+from open_geo_service.shared.time import dekad_bounds, dekad_period_ids
+from open_geo_service.streaming import BaseDatasetPlugin
 
-_DATASETS_DIR = Path(__file__).resolve().parent.parent / "plugins" / "datasets"
+_DATASETS_DIR = Path(__file__).resolve().parent.parent / "plugins" / "rasters"
 
 
 def _templates() -> list[dict[str, Any]]:
@@ -56,7 +56,7 @@ class TestDeclaredPlugin:
 def test_gpp_declares_a_dekadal_cadence() -> None:
     """A dekad is 8 to 11 days, so no ISO duration describes the cadence.
 
-    Open Climate Service publishes a null STAC step for an irregular cadence, so a declared
+    Open Geo Service publishes a null STAC step for an irregular cadence, so a declared
     `resolution` would either be ignored or wrongly imply regular spacing.
     """
     gpp = next(t for t in _TEMPLATES if t["id"] == "clms_gpp_dekadal")

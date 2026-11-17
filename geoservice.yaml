@@ -14,7 +14,7 @@ data_dir: ./data
 #
 # Ingestion is an operator task run on the host — see "Ingesting data" in README.md.
 #
-# REQUIRES a version of open-climate-service that implements read-only mode. On a build
+# REQUIRES a version of open-geo-service that implements read-only mode. On a build
 # without it this key is silently ignored and the instance is fully writable. See the
 # pinning note in pyproject.toml.
 read_only: true
