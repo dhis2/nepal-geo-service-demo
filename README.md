@@ -45,11 +45,13 @@ connection = openeo.connect("https://ocs-demo-nepal.dhis2.org")
 | `chirps3_precipitation_monthly` | 1990-01 onwards |
 | `era5land_temperature_monthly` | 1990-01 onwards |
 | `chirps3_precipitation_monthly_normal_1991_2020`, `era5land_temperature_monthly_normal_1991_2020` | 1991–2020 monthly normals |
-| `chirps3_precipitation_monthly_anomaly_1991_2020`, `chirps3_precipitation_monthly_relative_anomaly_1991_2020`, `era5land_temperature_monthly_anomaly_1991_2020` | the current year, against the normals |
+| `chirps3_precipitation_monthly_anomaly_1991_2020`, `chirps3_precipitation_monthly_relative_anomaly_1991_2020`, `era5land_temperature_monthly_anomaly_1991_2020` | 1990-01 onwards, against the normals |
 | `worldpop_population_global2_100m` | 2015–2030 |
 | `nepal_country`, `nepal_provinces`, `nepal_districts` | Overture Maps boundaries, see below |
 
-The monthly datasets are kept current by scheduled sync (see [Ingesting data](#ingesting-data)).
+The monthly datasets are kept current by scheduled sync (see [Ingesting data](#ingesting-data)),
+and their anomalies by the recipes Open Geo Service ships for them: when a source gains a
+month, the worker recomputes its anomalies over the full coverage.
 `GET /data-sources` lists everything this instance could ingest, with parameters.
 
 ## Almost entirely stock Open Geo Service

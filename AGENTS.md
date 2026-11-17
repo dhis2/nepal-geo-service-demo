@@ -60,12 +60,16 @@ To check them:
 1. `GET /schedules/sync/{dataset_id}` on the worker for the last run and its result.
 2. `GET https://ocs-demo-nepal.dhis2.org/datasets` for each dataset's temporal extent. A new
    month normally appears in the first half of the following month.
-3. If a source advanced but its anomaly datasets did not, re-derive them for the current
-   year. Normals and anomalies are workflow outputs, not ingestable data sources:
-   `POST /ingestions` refuses them. Create and start an openEO batch job on the worker
-   (`POST /jobs`, then `POST /jobs/{id}/results`) with a `climate_anomaly` process graph.
-   `GET /jobs` on the worker lists the earlier runs; copy one and widen its
-   `temporal_extent`.
+3. Each anomaly should end where its source ends. Built-in `produced_by` recipes refresh it
+   over the source's full coverage when the source updates, as a job titled
+   `Refresh <dataset id>` in `GET /jobs` on the worker. Updates missed while the worker was
+   down are caught up at startup and every 15 minutes. If an anomaly lags, look for a failed
+   refresh job: its `logs` show the attempts, and the next update of the source starts a new
+   one.
+
+Normals and anomalies are workflow outputs, not ingestable data sources: `POST /ingestions`
+refuses them. The worker config needs no `automation:` block; Open Geo Service refuses to start
+with one.
 
 A published store appears on the public instance without a restart.
 
