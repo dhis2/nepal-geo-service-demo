@@ -4,7 +4,7 @@
   variable: gpp
   standard_name: gross_primary_productivity_of_biomass_expressed_as_carbon
   # A dekad is the 1st, 11th or 21st of a month, and the third runs to the month's end — so 8
-  # to 11 days. No ISO duration describes that, and `dekadal` makes Open Climate Service
+  # to 11 days. No ISO duration describes that, and `dekadal` makes Open Geo Service
   # publish a null STAC step with the real timestamps rather than implying a regular one.
   period_type: dekadal
   sync:
