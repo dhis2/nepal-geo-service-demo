@@ -1,4 +1,4 @@
-# Nepal Climate Service — public demo instance
+# Nepal Geo Service — public demo instance
 
 A publicly reachable [Open Geo Service](https://github.com/dhis2/open-geo-service)
 instance configured to the Nepal extent, kept online as a stable demo endpoint:

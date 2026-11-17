@@ -1,4 +1,4 @@
-# Nepal Climate Service demo: agent notes
+# Nepal Geo Service demo: agent notes
 
 Operating rules for AI coding assistants maintaining the hosted demo at
 <https://ocs-demo-nepal.dhis2.org/>. The README explains the setup; this file lists what to
