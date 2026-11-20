@@ -12,6 +12,7 @@
     Nepal's national boundary, administrative level 0, from Overture Maps divisions.
   license: ODbL-1.0
   attribution: © OpenStreetMap contributors, © Overture Maps Foundation
+  source_url: https://docs.overturemaps.org/guides/divisions/
   id_property: id
   provider: overture
   params:
@@ -27,6 +28,7 @@
     Nepal's 7 provinces, administrative level 1, from Overture Maps divisions.
   license: ODbL-1.0
   attribution: © OpenStreetMap contributors, © Overture Maps Foundation
+  source_url: https://docs.overturemaps.org/guides/divisions/
   id_property: id
   provider: overture
   params:
@@ -42,6 +44,7 @@
     Nepal's 77 districts, administrative level 2, from Overture Maps divisions.
   license: ODbL-1.0
   attribution: © OpenStreetMap contributors, © Overture Maps Foundation
+  source_url: https://docs.overturemaps.org/guides/divisions/
   id_property: id
   provider: overture
   params:
