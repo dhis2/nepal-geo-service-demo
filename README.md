@@ -3,7 +3,7 @@
 A publicly reachable [Open Geo Service](https://github.com/dhis2/open-geo-service)
 instance configured to the Nepal extent, kept online as a stable demo endpoint:
 
-**<https://ocs-demo-nepal.dhis2.org/>**
+**<https://geoservice.dhis2.org/nepal/>**
 
 Tracked in [CLIM-848](https://dhis2.atlassian.net/browse/CLIM-848).
 
@@ -12,7 +12,7 @@ Tracked in [CLIM-848](https://dhis2.atlassian.net/browse/CLIM-848).
 - **Try Open Geo Service without deploying it.** Browse the STAC catalogue, the map
   viewer and the data endpoints against real data — no local install, no ingest.
 - **Test client integrations against a real endpoint.** The
-  [GeoLibre plugin](https://github.com/dhis2/open-climate-service-geolibre-plugin),
+  [GeoLibre plugin](https://github.com/dhis2/geolibre-geoservice-plugin),
   [STAC Browser](https://github.com/radiantearth/stac-browser) and any openEO client just
   need a URL.
 - **A stable reference** for docs, screenshots, onboarding and reproducing bug reports.
@@ -24,18 +24,18 @@ precipitation, and the country extent keeps the ingested stores small.
 
 | Client | URL |
 | --- | --- |
-| Browser, API overview | <https://ocs-demo-nepal.dhis2.org/> |
-| Map viewer | <https://ocs-demo-nepal.dhis2.org/map> |
-| API docs | <https://ocs-demo-nepal.dhis2.org/docs> |
-| STAC catalogue (STAC Browser, QGIS, pystac) | <https://ocs-demo-nepal.dhis2.org/stac> |
-| openEO (Python client, Web Editor) | `https://ocs-demo-nepal.dhis2.org` |
-| GeoLibre plugin | `https://ocs-demo-nepal.dhis2.org` as the service URL |
+| Browser, API overview | <https://geoservice.dhis2.org/nepal/> |
+| Map viewer | <https://geoservice.dhis2.org/nepal/map> |
+| API docs | <https://geoservice.dhis2.org/nepal/docs> |
+| STAC catalogue (STAC Browser, QGIS, pystac) | <https://geoservice.dhis2.org/nepal/stac/catalog.json> |
+| openEO (Python client, Web Editor) | `https://geoservice.dhis2.org/nepal` |
+| GeoLibre plugin | `https://geoservice.dhis2.org/nepal` as the service URL |
 | Datasets and feature collections | `/datasets`, `/collections`, `/features` |
 | Zarr stores (zarr-layer, xarray) | `/zarr/{dataset_id}` |
 
 ```python
 import openeo
-connection = openeo.connect("https://ocs-demo-nepal.dhis2.org")
+connection = openeo.connect("https://geoservice.dhis2.org/nepal")
 ```
 
 ## What it serves
@@ -101,7 +101,7 @@ finding it by failing.
 > writable instance:
 >
 > ```bash
-> make verify BASE=https://ocs-demo-nepal.dhis2.org
+> make verify BASE=https://geoservice.dhis2.org/nepal
 > ```
 
 ## Running it
@@ -131,7 +131,7 @@ To update a deployment to the current upstream build:
 git pull
 docker compose build --pull
 docker compose up -d
-make verify BASE=https://ocs-demo-nepal.dhis2.org
+make verify BASE=https://geoservice.dhis2.org/nepal
 ```
 
 ## Ingesting data
