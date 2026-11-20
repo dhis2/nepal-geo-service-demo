@@ -1,7 +1,7 @@
 # Nepal Geo Service demo: agent notes
 
 Operating rules for AI coding assistants maintaining the hosted demo at
-<https://ocs-demo-nepal.dhis2.org/>. The README explains the setup; this file lists what to
+<https://geoservice.dhis2.org/nepal/>. The README explains the setup; this file lists what to
 do and what not to do. Read both before changing anything on the deploy host.
 
 ## Access
@@ -43,7 +43,7 @@ docker compose up -d
 # worker project, so both run the same image (only when no ingestion is running)
 docker compose up -d
 # from anywhere
-make verify BASE=https://ocs-demo-nepal.dhis2.org
+make verify BASE=https://geoservice.dhis2.org/nepal
 ```
 
 `make verify` must report `read_only: True` and `ingest 403 : yes`. If it does not, stop the
@@ -58,14 +58,18 @@ The monthly CHIRPS3 and ERA5-Land datasets are extended by sync schedules on the
 To check them:
 
 1. `GET /schedules/sync/{dataset_id}` on the worker for the last run and its result.
-2. `GET https://ocs-demo-nepal.dhis2.org/datasets` for each dataset's temporal extent. A new
+2. `GET https://geoservice.dhis2.org/nepal/datasets` for each dataset's temporal extent. A new
    month normally appears in the first half of the following month.
-3. If a source advanced but its anomaly datasets did not, re-derive them for the current
-   year. Normals and anomalies are workflow outputs, not ingestable data sources:
-   `POST /ingestions` refuses them. Create and start an openEO batch job on the worker
-   (`POST /jobs`, then `POST /jobs/{id}/results`) with a `climate_anomaly` process graph.
-   `GET /jobs` on the worker lists the earlier runs; copy one and widen its
-   `temporal_extent`.
+3. Each anomaly should end where its source ends. Built-in `produced_by` recipes refresh it
+   over the source's full coverage when the source updates, as a job titled
+   `Refresh <dataset id>` in `GET /jobs` on the worker. Updates missed while the worker was
+   down are caught up at startup and every 15 minutes. If an anomaly lags, look for a failed
+   refresh job: its `logs` show the attempts, and the next update of the source starts a new
+   one.
+
+Normals and anomalies are workflow outputs, not ingestable data sources: `POST /ingestions`
+refuses them. The worker config needs no `automation:` block; Open Geo Service refuses to start
+with one.
 
 A published store appears on the public instance without a restart.
 
